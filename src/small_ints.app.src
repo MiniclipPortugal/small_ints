@@ -1,14 +1,14 @@
-{application, 'small_ints',
- [{description, "ZigZag and varint encoding and decoding of integers"},
-  {vsn, "0.1.0"},
-  {registered, []},
-  {applications,
-   [kernel,
-    stdlib
-   ]},
-  {env,[]},
-  {modules, []},
-  {contributors, ["Andrea Leopardi"]},
-  {licenses, ["MIT"]},
-  {links, [{"GitHub", "https://github.com/whatyouhide/small_ints"}]}
- ]}.
+{application, small_ints, [
+    {description, "ZigZag and varint encoding and decoding of integers"},
+    {vsn, git},
+    {registered, []},
+
+    {applications, [
+        % OTP dependencies
+        kernel,
+        stdlib
+        % External dependencies
+    ]},
+
+    {env, []}
+]}.
