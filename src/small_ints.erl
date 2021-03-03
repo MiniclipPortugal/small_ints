@@ -8,15 +8,22 @@
 -export([decode_zigzag_varint/1]).
 -export([encode_zigzag_varint/1]).
 
+-ignore_xref(decode_varint/1).
+-ignore_xref(encode_varint/1).
+-ignore_xref(decode_zigzag/1).
+-ignore_xref(encode_zigzag/1).
+-ignore_xref(decode_zigzag_varint/1).
+-ignore_xref(encode_zigzag_varint/1).
+
 %%====================================================================
 %% API functions
 %%====================================================================
 
--spec decode_varint(binary()) -> {non_neg_integer(), binary()}.
+-spec decode_varint(<<_:8, _:_*8>>) -> {non_neg_integer(), binary()}.
 decode_varint(Data) when is_binary(Data) ->
     decode_varint(Data, 0, 0).
 
--spec encode_varint(non_neg_integer()) -> binary().
+-spec encode_varint(non_neg_integer()) -> <<_:8, _:_*8>>.
 encode_varint(I) when is_integer(I), I >= 0, I =< 127 ->
     <<I>>;
 encode_varint(I) when is_integer(I), I > 127 ->
@@ -33,12 +40,12 @@ decode_zigzag(I) when I < 0                -> erlang:error({badarg, I}).
 encode_zigzag(I) when is_integer(I), I >= 0 -> I * 2;
 encode_zigzag(I) when is_integer(I), I < 0  -> - (I * 2) - 1.
 
--spec decode_zigzag_varint(binary()) -> {integer(), binary()}.
+-spec decode_zigzag_varint(<<_:8, _:_*8>>) -> {integer(), binary()}.
 decode_zigzag_varint(Data) ->
     {I, Rest} = decode_varint(Data),
     {decode_zigzag(I), Rest}.
 
--spec encode_zigzag_varint(integer()) -> binary().
+-spec encode_zigzag_varint(integer()) -> <<_:8, _:_*8>>.
 encode_zigzag_varint(I) ->
     encode_varint(encode_zigzag(I)).
 
@@ -67,7 +74,10 @@ decode_varint_test() ->
 
 encode_varint_test() ->
     ?assertEqual(<<1:8>>, encode_varint(1)),
-    ?assertEqual(<<44034:16>>, encode_varint(300)),
+    ?assertEqual(<<44034:16>>, encode_varint(300)).
+
+-dialyzer({nowarn_function, encode_varint_nok_test/0}).
+encode_varint_nok_test() ->
     ?assertError({badarg, -7}, encode_varint(-7)).
 
 decode_zigzag_test() ->
@@ -75,7 +85,10 @@ decode_zigzag_test() ->
     ?assertEqual(-1, decode_zigzag(1)),
     ?assertEqual(1, decode_zigzag(2)),
     ?assertEqual(5, decode_zigzag(10)),
-    ?assertEqual(-5, decode_zigzag(9)),
+    ?assertEqual(-5, decode_zigzag(9)).
+
+-dialyzer({nowarn_function, decode_zigzag_nok_test/0}).
+decode_zigzag_nok_test() ->
     ?assertError({badarg, -10}, decode_zigzag(-10)).
 
 encode_zigzag_test() ->

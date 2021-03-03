@@ -1,4 +1,7 @@
-# small_ints
+# small_ints [![GitHub Actions CI][ci-img]][ci]
+
+[ci]: https://github.com/miniclip/small_ints
+[ci-img]: https://github.com/miniclip/small_ints/workflows/build/badge.svg
 
 `small_ints` is an Erlang module that can help you deal with encoding and
 decoding of integers using the varint and ZigZag algorithms described in the
@@ -6,7 +9,9 @@ decoding of integers using the varint and ZigZag algorithms described in the
 
 ## Building
 
-    $ rebar3 compile
+```bash
+> rebar3 compile
+```
 
 ### Varint
 
@@ -47,6 +52,5 @@ and ZigZag algorithms:
 ## License
 
 MIT License &copy; 2015, Andrea Leopardi
-
 
 [docs-protobuf]: https://developers.google.com/protocol-buffers/docs/encoding
