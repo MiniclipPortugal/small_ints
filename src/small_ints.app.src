@@ -2,6 +2,9 @@
     {description, "ZigZag and varint encoding and decoding of integers"},
     {vsn, git},
     {registered, []},
+    {pkg_name, mc_small_ints},
+    {licenses, ["The MIT License"]},
+    {links, [{"GitHub", "https://github.com/miniclip/small_ints"}]},
 
     {applications, [
         % OTP dependencies
